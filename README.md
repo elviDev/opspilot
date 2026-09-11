@@ -20,7 +20,7 @@ OpsPilot watches your services in real time and uses AI to explain what's happen
 | Frontend   | Next.js (App Router), React, Tailwind CSS, Recharts |
 | Backend    | FastAPI (Python)                        |
 | Database   | PostgreSQL, SQLAlchemy                  |
-| AI         | Claude API (Anthropic)                  |
+| AI         | Claude API                              |
 | Alerts     | Slack webhooks                          |
 | Scheduling | APScheduler                             |
 
