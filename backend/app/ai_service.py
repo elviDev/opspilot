@@ -1,13 +1,15 @@
 """
-Handles all calls to the Claude API: summarizing incidents in plain language
+Handles all calls to the Gemini API: summarizing incidents in plain language
 and answering free-form questions about service history.
 """
 
-import anthropic
+import google.generativeai as genai
 from app.config import settings
 
-client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
-MODEL = "claude-sonnet-4-6"
+genai.configure(api_key=settings.GEMINI_API_KEY)
+MODEL = "gemini-3.6-flash"
+
+model = genai.GenerativeModel(MODEL)
 
 
 def summarize_incident(service_name: str, error_message: str, language: str = "en") -> str:
@@ -23,12 +25,8 @@ Write a short, plain-language summary (3-4 sentences max) covering:
 
 Respond in this language: {language}. Do not use technical jargon unless necessary."""
 
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=400,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    response = model.generate_content(prompt)
+    return response.text
 
 
 def answer_question(question: str, context: str, language: str = "en") -> str:
@@ -43,9 +41,5 @@ Question: {question}
 
 Respond in this language: {language}. Keep the answer concise and direct."""
 
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=500,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+    response = model.generate_content(prompt)
+    return response.text

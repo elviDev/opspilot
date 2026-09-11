@@ -72,7 +72,8 @@ def _check_service(db, service: Service):
                 summary = None
                 try:
                     summary = summarize_incident(service.name, error_message or "Unknown error", "en")
-                except Exception:
+                except Exception as e:
+                    print(f"AI summary failed: {e}")
                     summary = None
 
                 incident = Incident(

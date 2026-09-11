@@ -6,4 +6,4 @@ pydantic==2.9.2
 python-dotenv==1.0.1
 apscheduler==3.10.4
 requests==2.32.3
-anthropic==0.34.2
+google-generativeai==0.8.3
