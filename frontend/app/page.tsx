@@ -3,15 +3,19 @@ import StatusCard from "@/components/StatusCard";
 import IncidentList from "@/components/IncidentList";
 import ChatBox from "@/components/ChatBox";
 
+import { Service, Incident, Uptime } from "@/lib/api";
+
 export default async function DashboardPage() {
-  let services = [];
-  let incidents = [];
-  let uptimes: Record<number, any> = {};
+  let services: Service[] = [];
+  let incidents: Incident[] = [];
+  let uptimes: Record<number, Uptime> = {};
 
   try {
     services = await getServices();
     incidents = await getIncidents();
-    const uptimeResults = await Promise.all(services.map((s) => getUptime(s.id)));
+    const uptimeResults = await Promise.all(
+      services.map((s) => getUptime(s.id)),
+    );
     uptimeResults.forEach((u) => (uptimes[u.service_id] = u));
   } catch {
     // Backend not reachable yet — page still renders with empty state
@@ -35,7 +39,11 @@ export default async function DashboardPage() {
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
         {services.map((service) => (
-          <StatusCard key={service.id} service={service} uptime={uptimes[service.id] || null} />
+          <StatusCard
+            key={service.id}
+            service={service}
+            uptime={uptimes[service.id] || null}
+          />
         ))}
       </section>
 
