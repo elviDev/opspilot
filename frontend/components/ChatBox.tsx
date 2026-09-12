@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { askChat } from "@/lib/api";
+import ReactMarkdown from "react-markdown";
 
 const LANGUAGES = [
   { code: "en", label: "English" },
@@ -67,7 +68,7 @@ export default function ChatBox() {
 
       {answer && (
         <div className="text-sm text-gray-200 leading-relaxed border-t border-border pt-4">
-          {answer}
+          <ReactMarkdown>{answer}</ReactMarkdown>
         </div>
       )}
     </div>
