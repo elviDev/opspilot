@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
 import { QueryProvider } from "@/lib/query/query-provider";
 import { buildSiteGraph } from "@/lib/seo/structured-data";
+import { StoreHydrator } from "@/stores/store-hydrator";
 import "./globals.css";
 
 const inter = Inter({
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <JsonLd data={buildSiteGraph()} />
+        <StoreHydrator />
         <QueryProvider>
           <SiteHeader />
           <main id="content" className="flex-1">

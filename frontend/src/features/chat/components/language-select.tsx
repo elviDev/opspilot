@@ -1,9 +1,8 @@
 "use client";
 
 import { Select } from "@/components/ui/select";
-import { LANGUAGES } from "../constants";
-import { languageSchema } from "../schemas";
-import { usePreferencesStore } from "../store/preferences-store";
+import { LANGUAGES, languageSchema } from "@/config/languages";
+import { usePreferencesStore } from "@/stores/preferences-store";
 
 export function LanguageSelect() {
   const language = usePreferencesStore((state) => state.language);

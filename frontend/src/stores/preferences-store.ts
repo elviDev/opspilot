@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { DEFAULT_LANGUAGE, type LanguageCode } from "../constants";
-import { languageSchema } from "../schemas";
+import { DEFAULT_LANGUAGE, languageSchema, type LanguageCode } from "@/config/languages";
 
 type PreferencesState = {
   language: LanguageCode;
