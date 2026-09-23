@@ -1,32 +1,13 @@
+"use client";
+
+import Link from "next/link";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Stat } from "@/components/ui/stat";
 import { StatusDot } from "@/components/ui/status-dot";
-import { cn } from "@/lib/utils/cn";
-import { formatMs, formatPercent } from "@/lib/utils/format";
-import { getServiceHealth, healthPresentation } from "../lib/health";
+import { formatMs } from "@/lib/utils/format";
+import { formatUptime, getServiceHealth, healthPresentation } from "../lib/health";
 import type { ServiceWithUptime } from "../schemas";
-
-type MetricProps = {
-  value: string;
-  label: string;
-  emphasis?: "primary" | "secondary";
-};
-
-function Metric({ value, label, emphasis = "primary" }: MetricProps) {
-  // dt precedes dd in the DOM for assistive tech; flex-col-reverse puts the value on top visually.
-  return (
-    <div className={cn("flex flex-col-reverse", emphasis === "secondary" && "items-end")}>
-      <dt className="text-xs text-muted">{label}</dt>
-      <dd
-        className={cn(
-          "text-foreground tabular-nums",
-          emphasis === "primary" ? "text-2xl font-semibold" : "text-lg font-medium",
-        )}
-      >
-        {value}
-      </dd>
-    </div>
-  );
-}
+import { DeleteServiceButton } from "./delete-service-button";
 
 export function ServiceCard({ service }: { service: ServiceWithUptime }) {
   const { uptime } = service;
@@ -35,8 +16,15 @@ export function ServiceCard({ service }: { service: ServiceWithUptime }) {
   return (
     <Card className="flex flex-col gap-3">
       <CardHeader>
-        <CardTitle className="truncate">{service.name}</CardTitle>
-        <StatusDot tone={health.tone} label={health.label} pulse={health.tone !== "neutral"} />
+        <CardTitle className="min-w-0 truncate">
+          <Link href={`/services/${service.id}`} className="hover:text-accent hover:underline">
+            {service.name}
+          </Link>
+        </CardTitle>
+        <div className="flex shrink-0 items-center gap-1">
+          <StatusDot tone={health.tone} label={health.label} pulse={health.tone !== "neutral"} className="mr-1" />
+          <DeleteServiceButton service={service} />
+        </div>
       </CardHeader>
       <a
         href={service.url}
@@ -47,8 +35,13 @@ export function ServiceCard({ service }: { service: ServiceWithUptime }) {
         {service.url}
       </a>
       <dl className="mt-2 flex items-end justify-between">
-        <Metric value={uptime ? formatPercent(uptime.uptime_percent) : "—"} label="uptime" />
-        <Metric value={formatMs(uptime?.avg_response_time_ms ?? null)} label="avg response" emphasis="secondary" />
+        <Stat value={formatUptime(uptime)} label="uptime" />
+        <Stat
+          value={formatMs(uptime?.avg_response_time_ms ?? null)}
+          label="avg response"
+          emphasis="secondary"
+          align="end"
+        />
       </dl>
     </Card>
   );

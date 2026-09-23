@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { LANGUAGE_CODES, MAX_QUESTION_LENGTH } from "./constants";
-
-export const languageSchema = z.enum(LANGUAGE_CODES);
+import { languageSchema } from "@/config/languages";
+import { MAX_QUESTION_LENGTH } from "./constants";
 
 export const chatRequestSchema = z.object({
   question: z

@@ -9,6 +9,7 @@ import { HydratedDashboard } from "@/features/dashboard/components/hydrated-dash
 import { LiveIndicator } from "@/features/dashboard/components/live-indicator";
 import { LiveIncidents, LiveServices } from "@/features/dashboard/components/live-sections";
 import { IncidentListSkeleton, ServiceGridSkeleton } from "@/features/dashboard/components/skeletons";
+import { AddServiceDialog } from "@/features/services/components/add-service-dialog";
 import { buildWebPage } from "@/lib/seo/structured-data";
 
 export const metadata: Metadata = {
@@ -38,7 +39,9 @@ export default function DashboardPage() {
       />
 
       <section aria-labelledby="services-heading" className="mb-10">
-        <SectionHeading id="services-heading">Services</SectionHeading>
+        <SectionHeading id="services-heading" actions={<AddServiceDialog />}>
+          Services
+        </SectionHeading>
         <Suspense fallback={<ServiceGridSkeleton />}>
           <HydratedDashboard>
             <LiveServices />

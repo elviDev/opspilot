@@ -3,6 +3,7 @@ import { LocalTime } from "@/components/ui/local-time";
 import { formatDuration } from "@/lib/utils/format";
 import type { IncidentWithService } from "../schemas";
 import { IncidentStatusBadge } from "./incident-status-badge";
+import { TranslateIncident } from "./translate-incident";
 
 export function IncidentCard({ incident }: { incident: IncidentWithService }) {
   return (
@@ -25,6 +26,9 @@ export function IncidentCard({ incident }: { incident: IncidentWithService }) {
         <p className="text-sm leading-relaxed text-foreground/85">
           {incident.ai_summary || "AI summary not available yet."}
         </p>
+        <footer className="mt-1 border-t border-border pt-3">
+          <TranslateIncident incidentId={incident.id} />
+        </footer>
       </article>
     </Card>
   );

@@ -6,6 +6,7 @@ const variants = {
   primary: "bg-accent text-background hover:bg-accent/90",
   secondary: "border border-border bg-surface text-foreground hover:bg-surface-hover",
   ghost: "text-muted hover:bg-surface-hover hover:text-foreground",
+  danger: "bg-danger text-white hover:bg-danger/90",
 } as const;
 
 const sizes = {

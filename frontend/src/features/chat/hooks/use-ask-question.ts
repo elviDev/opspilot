@@ -2,9 +2,9 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { getErrorMessage } from "@/lib/http/api-error";
+import { usePreferencesStore } from "@/stores/preferences-store";
 import { askQuestion } from "../api/ask-question";
 import { useChatStore } from "../store/chat-store";
-import { usePreferencesStore } from "../store/preferences-store";
 
 export function useAskQuestion() {
   const addMessage = useChatStore((state) => state.addMessage);
