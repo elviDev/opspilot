@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Design tokens — every color/font utility (bg-surface, text-muted, …) derives from these. */
+@theme {
+  --color-background: #0b0d10;
+  --color-surface: #14171b;
+  --color-surface-hover: #1b1f24;
+  --color-border: #22262b;
+  --color-foreground: #e6edf3;
+  --color-muted: #8b949e;
+  --color-accent: #22c55e;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-accent) 30%, transparent);
+  }
+}
