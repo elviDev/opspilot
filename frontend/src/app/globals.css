@@ -18,8 +18,8 @@
 
 :root {
   color-scheme: dark;
-  --neu-light: #252b35;
-  --neu-dark: #11141a;
+  --neu-light: rgb(255 255 255 / 3%);
+  --neu-dark: rgb(0 0 0 / 22%);
 }
 
 @layer base {
@@ -37,18 +37,18 @@
 
 @layer components {
   .neu-raised {
-    box-shadow: 7px 7px 16px var(--neu-dark), -7px -7px 16px var(--neu-light);
+    box-shadow: 4px 4px 10px var(--neu-dark), -4px -4px 10px var(--neu-light);
   }
 
   .neu-inset {
-    box-shadow: inset 4px 4px 8px var(--neu-dark), inset -4px -4px 8px var(--neu-light);
+    box-shadow: inset 2px 2px 5px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
   }
 
   .neu-pressable:active {
-    box-shadow: inset 3px 3px 7px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
+    box-shadow: inset 2px 2px 4px var(--neu-dark), inset -2px -2px 4px var(--neu-light);
   }
 
   .neu-accent {
-    box-shadow: 4px 4px 9px rgb(4 13 11 / 55%), -4px -4px 9px rgb(49 61 74 / 70%);
+    box-shadow: 3px 3px 7px rgb(0 0 0 / 24%), -2px -2px 6px rgb(255 255 255 / 6%);
   }
 }
