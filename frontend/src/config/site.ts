@@ -23,7 +23,7 @@ export const siteConfig = {
     url: "https://github.com/elviDev",
   },
   repository: "https://github.com/elviDev/opspilot",
-  themeColor: "#0b0d10",
+  themeColor: "#171a21",
 } as const;
 
 export type SiteConfig = typeof siteConfig;

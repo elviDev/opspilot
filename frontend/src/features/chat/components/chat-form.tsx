@@ -23,12 +23,13 @@ export function ChatForm({ onSubmit, isPending }: ChatFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex min-w-0 gap-2">
       <label htmlFor="chat-question" className="sr-only">
         Ask a question about your incidents
       </label>
       <Input
         id="chat-question"
+        className="min-w-0 flex-1"
         value={question}
         onChange={(event) => setQuestion(event.target.value)}
         maxLength={MAX_QUESTION_LENGTH}

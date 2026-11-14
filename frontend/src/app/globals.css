@@ -3,26 +3,35 @@
 
 /* Design tokens — every color/font utility (bg-surface, text-muted, …) derives from these. */
 @theme {
-  --color-background: #0b0d10;
-  --color-surface: #14171b;
-  --color-surface-hover: #1b1f24;
-  --color-border: #22262b;
-  --color-foreground: #e6edf3;
-  --color-muted: #8b949e;
-  --color-accent: #22c55e;
-  --color-danger: #ef4444;
-  --color-warning: #f59e0b;
+  --color-background: #171a21;
+  --color-surface: #171a21;
+  --color-surface-hover: #242a33;
+  --color-border: #2c333e;
+  --color-foreground: #e6edf5;
+  --color-muted: #9aa8bb;
+  --color-accent: #46c895;
+  --color-danger: #f07178;
+  --color-warning: #f2b866;
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.625rem;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@layer base {
-  html {
-    color-scheme: dark;
-  }
+:root {
+  color-scheme: dark;
+}
 
+@layer base {
   body {
     @apply bg-background font-sans text-foreground antialiased;
+    background-image:
+      radial-gradient(ellipse at 10% 0%, rgb(76 96 125 / 16%), transparent 36rem),
+      radial-gradient(ellipse at 95% 15%, rgb(37 89 73 / 10%), transparent 32rem);
   }
 
   ::selection {

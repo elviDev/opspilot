@@ -252,7 +252,7 @@ export function ResponseTimeChart({ checks }: { checks: Check[] }) {
         {layout && active && (
           <div
             role="status"
-            className="pointer-events-none absolute top-2 z-10 min-w-36 rounded-md border border-border bg-background/95 px-3 py-2 text-xs shadow-lg"
+            className="pointer-events-none absolute top-2 z-10 min-w-36 rounded-md border border-border bg-background/95 px-3 py-2 text-xs"
             style={
               layout.x(active.time) > width / 2
                 ? { right: width - layout.x(active.time) + 12 }

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
  */
 export default function DashboardPage() {
   return (
-    <Container className="py-10">
+    <Container className="py-8 sm:py-10">
       <JsonLd data={buildWebPage({ path: "/", name: siteConfig.title, description: siteConfig.description })} />
 
       <PageHeader
@@ -38,7 +38,7 @@ export default function DashboardPage() {
         }
       />
 
-      <section aria-labelledby="services-heading" className="mb-10">
+      <section aria-labelledby="services-heading" className="mb-8 sm:mb-10">
         <SectionHeading id="services-heading" actions={<AddServiceDialog />}>
           Services
         </SectionHeading>
@@ -49,7 +49,7 @@ export default function DashboardPage() {
         </Suspense>
       </section>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
         <section aria-labelledby="incidents-heading">
           <SectionHeading id="incidents-heading">Incidents</SectionHeading>
           <Suspense fallback={<IncidentListSkeleton />}>
