@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils/cn";
 
 export const fieldStyles = cn(
-  "rounded-md border border-border bg-background text-sm text-foreground transition-colors outline-none",
+  "neu-inset rounded-xl border border-white/10 bg-background text-sm text-foreground transition-shadow outline-none",
   "placeholder:text-muted focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/20",
   "disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger",
 );

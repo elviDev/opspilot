@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function ServicePage({ params }: PageProps<"/services/[id]">) {
   return (
-    <Container className="py-10">
+    <Container className="py-8 sm:py-10">
       <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground">
         <ArrowLeft aria-hidden className="size-4" />
         All services

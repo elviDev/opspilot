@@ -45,7 +45,7 @@ export function Dialog({ open, onOpenChange, title, description, children, class
       // A click on the dialog element itself (not its content) is a backdrop click.
       onClick={(event) => event.target === event.currentTarget && onOpenChange(false)}
       className={cn(
-        "m-auto w-[calc(100%-2rem)] max-w-md rounded-xl border border-border bg-surface p-0 text-foreground shadow-2xl",
+        "neu-raised m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-white/10 bg-surface p-0 text-foreground",
         "backdrop:bg-black/60 backdrop:backdrop-blur-sm",
         className,
       )}

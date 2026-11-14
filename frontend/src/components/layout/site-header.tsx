@@ -7,8 +7,8 @@ import { Container } from "./container";
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-border">
-      <Container className="flex h-14 items-center justify-between">
+    <header className="border-b border-white/10 bg-background/70 shadow-[0_1px_0_rgb(37_43_53_/_55%)] backdrop-blur-xl">
+      <Container className="flex min-h-14 flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
         <Link href="/" className="flex items-center gap-2 font-semibold text-foreground">
           <Activity aria-hidden className="size-5 text-accent" />
           {siteConfig.name}
