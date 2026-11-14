@@ -41,7 +41,7 @@ function ServiceHeader({ service }: { service: ServiceWithUptime }) {
         </div>
         <DeleteServiceButton service={service} variant="full" onDeleted={() => router.replace("/")} />
       </div>
-      <dl className="neu-raised grid grid-cols-2 gap-3 rounded-2xl border border-white/10 bg-surface p-4 sm:grid-cols-3 sm:gap-4 sm:p-5">
+      <dl className="grid grid-cols-2 gap-3 rounded-2xl border border-border bg-surface p-4 sm:grid-cols-3 sm:gap-4 sm:p-5">
         <Stat value={formatUptime(uptime)} label="uptime" />
         <Stat value={formatMs(uptime?.avg_response_time_ms ?? null)} label="avg response" />
         <Stat value={uptime ? uptime.total_checks.toLocaleString() : "—"} label="total checks" />

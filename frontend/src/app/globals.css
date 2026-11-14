@@ -24,8 +24,6 @@
 
 :root {
   color-scheme: dark;
-  --neu-light: rgb(255 255 255 / 3%);
-  --neu-dark: rgb(0 0 0 / 22%);
 }
 
 @layer base {
@@ -38,23 +36,5 @@
 
   ::selection {
     background-color: color-mix(in oklab, var(--color-accent) 30%, transparent);
-  }
-}
-
-@layer components {
-  .neu-raised {
-    box-shadow: 4px 4px 10px var(--neu-dark), -4px -4px 10px var(--neu-light);
-  }
-
-  .neu-inset {
-    box-shadow: inset 2px 2px 5px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
-  }
-
-  .neu-pressable:active {
-    box-shadow: inset 2px 2px 4px var(--neu-dark), inset -2px -2px 4px var(--neu-light);
-  }
-
-  .neu-accent {
-    box-shadow: 3px 3px 7px rgb(0 0 0 / 24%), -2px -2px 6px rgb(255 255 255 / 6%);
   }
 }

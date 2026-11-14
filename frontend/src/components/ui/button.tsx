@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils/cn";
 import { Spinner } from "./spinner";
 
 const variants = {
-  primary: "neu-accent bg-accent text-background hover:bg-accent/90",
-  secondary: "neu-raised border border-white/10 bg-surface text-foreground hover:bg-surface-hover",
+  primary: "bg-accent text-background hover:bg-accent/90",
+  secondary: "border border-border bg-surface text-foreground hover:bg-surface-hover",
   ghost: "text-muted hover:bg-surface-hover hover:text-foreground",
   danger: "bg-danger text-white hover:bg-danger/90",
 } as const;
@@ -37,7 +37,7 @@ export function Button({
       disabled={disabled || isLoading}
       aria-busy={isLoading || undefined}
       className={cn(
-        "neu-pressable inline-flex shrink-0 items-center justify-center rounded-xl font-medium transition-all duration-200",
+        "inline-flex shrink-0 items-center justify-center rounded-xl font-medium transition-colors duration-200",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
         "disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
