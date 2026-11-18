@@ -7,7 +7,11 @@ import { siteConfig } from "@/config/site";
 import { ChatPanel } from "@/features/chat/components/chat-panel";
 import { HydratedDashboard } from "@/features/dashboard/components/hydrated-dashboard";
 import { LiveIndicator } from "@/features/dashboard/components/live-indicator";
-import { LiveIncidents, LiveServices } from "@/features/dashboard/components/live-sections";
+import {
+  LiveAlertRoutes,
+  LiveIncidents,
+  LiveServices,
+} from "@/features/dashboard/components/live-sections";
 import { IncidentListSkeleton, ServiceGridSkeleton } from "@/features/dashboard/components/skeletons";
 import { AddServiceDialog } from "@/features/services/components/add-service-dialog";
 import { buildWebPage } from "@/lib/seo/structured-data";
@@ -45,6 +49,17 @@ export default function DashboardPage() {
         <Suspense fallback={<ServiceGridSkeleton />}>
           <HydratedDashboard>
             <LiveServices />
+          </HydratedDashboard>
+        </Suspense>
+      </section>
+
+      <section aria-labelledby="alert-routes-heading" className="mb-8">
+        <h2 id="alert-routes-heading" className="sr-only">
+          Alert destinations
+        </h2>
+        <Suspense fallback={null}>
+          <HydratedDashboard>
+            <LiveAlertRoutes />
           </HydratedDashboard>
         </Suspense>
       </section>

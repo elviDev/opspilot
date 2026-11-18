@@ -1,6 +1,8 @@
 from datetime import datetime
-from typing import Optional
-from pydantic import BaseModel
+from typing import Literal, Optional
+from urllib.parse import urlsplit
+
+from pydantic import BaseModel, field_validator, model_validator
 
 
 class ServiceCreate(BaseModel):
@@ -50,3 +52,65 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     answer: str
+
+
+class AlertRouteCreate(BaseModel):
+    name: str
+    provider: Literal["slack", "discord"]
+    webhook_url: str
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: str) -> str:
+        name = value.strip()
+        if not name or len(name) > 80:
+            raise ValueError("Name must be between 1 and 80 characters")
+        return name
+
+    @field_validator("webhook_url")
+    @classmethod
+    def validate_webhook_url(cls, value: str) -> str:
+        parts = urlsplit(value)
+        try:
+            port = parts.port
+        except ValueError as error:
+            raise ValueError("Enter a valid webhook URL") from error
+        valid_slack = parts.hostname == "hooks.slack.com" and parts.path.startswith("/services/")
+        valid_discord = (
+            parts.hostname in {"discord.com", "discordapp.com"}
+            and parts.path.startswith("/api/webhooks/")
+        )
+        if (
+            parts.scheme != "https"
+            or parts.username
+            or parts.password
+            or (port is not None and port != 443)
+            or parts.query
+            or parts.fragment
+            or not (valid_slack or valid_discord)
+        ):
+            raise ValueError("Use a valid HTTPS Slack or Discord incoming webhook URL")
+        return value
+
+    @model_validator(mode="after")
+    def validate_provider_url(self):
+        parts = urlsplit(self.webhook_url)
+        matches_provider = (
+            self.provider == "slack" and parts.hostname == "hooks.slack.com"
+        ) or (
+            self.provider == "discord"
+            and parts.hostname in {"discord.com", "discordapp.com"}
+        )
+        if not matches_provider:
+            raise ValueError("Webhook URL must match the selected provider")
+        return self
+
+
+class AlertRouteOut(BaseModel):
+    id: int
+    name: str
+    provider: Literal["slack", "discord"]
+    is_active: bool
+
+    class Config:
+        from_attributes = True

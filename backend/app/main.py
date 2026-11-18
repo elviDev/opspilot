@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
-from app.routers import services, checks, incidents, chat
+from app.routers import alerts, services, checks, incidents, chat
 from app.scheduler import start_scheduler
 from app.config import settings
 
@@ -22,6 +22,7 @@ app.include_router(services.router)
 app.include_router(checks.router)
 app.include_router(incidents.router)
 app.include_router(chat.router)
+app.include_router(alerts.router)
 
 
 @app.on_event("startup")
