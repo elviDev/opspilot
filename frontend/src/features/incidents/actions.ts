@@ -7,12 +7,18 @@ import { runAuthorizedAction } from "@/features/auth/server/run-authorized-actio
 import { DASHBOARD_CACHE_TAG } from "@/features/dashboard/server/get-dashboard";
 import type { ActionResult } from "@/lib/actions/action-result";
 import { backendFetch } from "@/lib/backend/client";
-import { incidentSchema, type Incident } from "./schemas";
+import {
+  incidentAcknowledgementSchema,
+  incidentSchema,
+  type Incident,
+  type IncidentAcknowledgement,
+} from "./schemas";
 
 const translateIncidentSchema = z.object({
   incidentId: z.number().int().positive(),
   language: languageSchema,
 });
+const incidentIdSchema = z.number().int().positive();
 
 /** The backend regenerates the summary with the LLM, which can take a while. */
 const TRANSLATE_TIMEOUT_MS = 45_000;
@@ -30,5 +36,19 @@ export async function translateIncident(input: unknown): Promise<ActionResult<In
     );
     updateTag(DASHBOARD_CACHE_TAG);
     return incident;
+  });
+}
+
+export async function acknowledgeIncident(
+  input: unknown,
+): Promise<ActionResult<IncidentAcknowledgement>> {
+  return runAuthorizedAction(incidentIdSchema, input, async (incidentId) => {
+    const acknowledgement = await backendFetch(
+      `/incidents/${incidentId}/acknowledge`,
+      incidentAcknowledgementSchema,
+      { method: "POST", cache: "no-store" },
+    );
+    updateTag(DASHBOARD_CACHE_TAG);
+    return acknowledgement;
   });
 }

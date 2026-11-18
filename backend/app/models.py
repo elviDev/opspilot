@@ -51,6 +51,25 @@ class Incident(Base):
     status = Column(String, default="open")  # open | resolved
 
     service = relationship("Service", back_populates="incidents")
+    acknowledgement = relationship(
+        "IncidentAcknowledgement",
+        back_populates="incident",
+        cascade="all, delete-orphan",
+        uselist=False,
+    )
+
+    @property
+    def acknowledged_at(self):
+        return self.acknowledgement.acknowledged_at if self.acknowledgement else None
+
+
+class IncidentAcknowledgement(Base):
+    __tablename__ = "incident_acknowledgements"
+
+    incident_id = Column(Integer, ForeignKey("incidents.id", ondelete="CASCADE"), primary_key=True)
+    acknowledged_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    incident = relationship("Incident", back_populates="acknowledgement")
 
 
 class MaintenanceWindow(Base):

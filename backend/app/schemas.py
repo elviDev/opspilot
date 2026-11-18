@@ -40,9 +40,17 @@ class IncidentOut(BaseModel):
     resolved_at: Optional[datetime]
     ai_summary: Optional[str]
     status: str
+    acknowledged_at: Optional[datetime]
 
     class Config:
         from_attributes = True
+
+
+class IncidentAcknowledgementOut(BaseModel):
+    incident_id: int
+    acknowledged_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MaintenanceWindowCreate(BaseModel):
