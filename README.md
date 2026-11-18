@@ -12,7 +12,9 @@ OpsPilot watches your services in real time and uses AI to explain what's happen
 - **AI incident summaries** â€” when a service fails, Gemini reads the error and explains what likely broke, why, and what to check next, in plain language.
 - **Multi-language support** â€” incident summaries and chat answers can be generated in the user's preferred language.
 - **AI chat assistant** â€” ask questions like "why did the payments service go down last night" and get an answer pulled from real incident history.
-- **Slack alerts** â€” get notified the moment something goes down or recovers.
+- **Slack and Discord alert routing** — configure multiple webhook destinations for outage and recovery notifications.
+- **Maintenance windows** — schedule global or service-specific maintenance; checks continue while incidents and alerts are suppressed.
+- **Incident acknowledgement** — acknowledge ongoing incidents from the dashboard.
 - **Clean dashboard** â€” built with Next.js, React, and Tailwind, showing uptime, response time trends, and incident history at a glance.
 
 ## Tech stack
@@ -23,7 +25,7 @@ OpsPilot watches your services in real time and uses AI to explain what's happen
 | Backend    | FastAPI (Python)                        |
 | Database   | PostgreSQL, SQLAlchemy                  |
 | AI         | Google Gemini API                       |
-| Alerts     | Slack webhooks                          |
+| Alerts     | Slack and Discord webhooks              |
 | Scheduling | APScheduler                             |
 
 ## Project structure
