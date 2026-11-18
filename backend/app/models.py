@@ -46,3 +46,13 @@ class Incident(Base):
     status = Column(String, default="open")  # open | resolved
 
     service = relationship("Service", back_populates="incidents")
+
+
+class AlertRoute(Base):
+    __tablename__ = "alert_routes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(80), nullable=False)
+    provider = Column(String(20), nullable=False)
+    webhook_url = Column(Text, nullable=False)
+    is_active = Column(Boolean, default=True, nullable=False)

@@ -1,6 +1,7 @@
 "use client";
 
 import { IncidentList } from "@/features/incidents/components/incident-list";
+import { AlertRoutesPanel } from "@/features/alert-routes/components/alert-routes-panel";
 import { ServiceGrid } from "@/features/services/components/service-grid";
 import type { DashboardSnapshot } from "../schemas";
 import { DashboardQueryState } from "./dashboard-query-state";
@@ -8,6 +9,7 @@ import { IncidentListSkeleton, ServiceGridSkeleton } from "./skeletons";
 
 const selectServices = (snapshot: DashboardSnapshot) => snapshot.services;
 const selectIncidents = (snapshot: DashboardSnapshot) => snapshot.incidents;
+const selectAlertRoutes = (snapshot: DashboardSnapshot) => snapshot.alert_routes;
 
 export function LiveServices() {
   return (
@@ -21,6 +23,15 @@ export function LiveIncidents() {
   return (
     <DashboardQueryState select={selectIncidents} fallback={<IncidentListSkeleton />}>
       {(incidents) => <IncidentList incidents={incidents} />}
+    </DashboardQueryState>
+  );
+}
+
+
+export function LiveAlertRoutes() {
+  return (
+    <DashboardQueryState select={selectAlertRoutes} fallback={null}>
+      {(routes) => <AlertRoutesPanel routes={routes} />}
     </DashboardQueryState>
   );
 }

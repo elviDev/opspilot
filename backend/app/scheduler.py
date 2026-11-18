@@ -5,7 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from app.database import SessionLocal
 from app.models import Service, Check, Incident
 from app.config import settings
-from app.alerts import send_slack_alert
+from app.alerts import send_alert
 from app.ai_service import summarize_incident
 
 scheduler = BackgroundScheduler()
@@ -59,7 +59,7 @@ def _check_service(db, service: Service):
             open_incident.status = "resolved"
             from sqlalchemy.sql import func
             open_incident.resolved_at = func.now()
-            send_slack_alert(f":white_check_mark: *{service.name}* has recovered.")
+            send_alert(db, f":white_check_mark: *{service.name}* has recovered.")
     else:
         service.consecutive_failures += 1
         if service.consecutive_failures >= settings.FAILURE_THRESHOLD:
@@ -83,7 +83,8 @@ def _check_service(db, service: Service):
                     status="open",
                 )
                 db.add(incident)
-                send_slack_alert(
+                send_alert(
+                    db,
                     f":rotating_light: *{service.name}* appears to be down.\n{summary or error_message}"
                 )
 

@@ -28,6 +28,7 @@ export function useDeleteService({ onDeleted }: UseDeleteServiceOptions = {}) {
       onDeleted?.(id);
       queryClient.setQueryData<DashboardSnapshot>(dashboardKeys.snapshot(), (snapshot) =>
         snapshot && {
+          ...snapshot,
           services: snapshot.services.filter((service) => service.id !== id),
           incidents: snapshot.incidents.filter((incident) => incident.service_id !== id),
         },

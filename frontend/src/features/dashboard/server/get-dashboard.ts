@@ -1,6 +1,7 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { z } from "zod";
+import { alertRouteSchema } from "@/features/alert-routes/schemas";
 import { incidentSchema, type IncidentWithService } from "@/features/incidents/schemas";
 import { serviceSchema, uptimeSchema, type ServiceWithUptime, type Uptime } from "@/features/services/schemas";
 import { backendFetch } from "@/lib/backend/client";
@@ -27,9 +28,10 @@ export async function getDashboard(): Promise<DashboardSnapshot> {
   cacheLife("monitoring");
   cacheTag(DASHBOARD_CACHE_TAG);
 
-  const [services, incidents] = await Promise.all([
+  const [services, incidents, alertRoutes] = await Promise.all([
     backendFetch("/services/", z.array(serviceSchema)),
     backendFetch("/incidents/", z.array(incidentSchema)),
+    backendFetch("/alerts/routes/", z.array(alertRouteSchema)),
   ]);
 
   const uptimes = await Promise.all(services.map((service) => getUptimeSafely(service.id)));
@@ -45,5 +47,5 @@ export async function getDashboard(): Promise<DashboardSnapshot> {
     service_name: serviceNames.get(incident.service_id) ?? null,
   }));
 
-  return { services: servicesWithUptime, incidents: incidentsWithService };
+  return { services: servicesWithUptime, incidents: incidentsWithService, alert_routes: alertRoutes };
 }
