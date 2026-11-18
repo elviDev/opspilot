@@ -17,6 +17,11 @@ class Service(Base):
 
     checks = relationship("Check", back_populates="service", cascade="all, delete-orphan")
     incidents = relationship("Incident", back_populates="service", cascade="all, delete-orphan")
+    maintenance_windows = relationship(
+        "MaintenanceWindow",
+        back_populates="service",
+        cascade="all, delete-orphan",
+    )
 
 
 class Check(Base):
@@ -46,6 +51,23 @@ class Incident(Base):
     status = Column(String, default="open")  # open | resolved
 
     service = relationship("Service", back_populates="incidents")
+
+
+class MaintenanceWindow(Base):
+    __tablename__ = "maintenance_windows"
+
+    id = Column(Integer, primary_key=True, index=True)
+    service_id = Column(Integer, ForeignKey("services.id", ondelete="CASCADE"), nullable=True)
+    title = Column(String(120), nullable=False)
+    starts_at = Column(DateTime(timezone=True), nullable=False)
+    ends_at = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    service = relationship("Service", back_populates="maintenance_windows")
+
+    @property
+    def service_name(self):
+        return self.service.name if self.service else None
 
 
 class AlertRoute(Base):

@@ -1,9 +1,12 @@
 import time
+from datetime import datetime, timezone
+
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
+from sqlalchemy import or_
 
 from app.database import SessionLocal
-from app.models import Service, Check, Incident
+from app.models import Check, Incident, MaintenanceWindow, Service
 from app.config import settings
 from app.alerts import send_alert
 from app.ai_service import summarize_incident
@@ -22,6 +25,21 @@ def run_checks():
 
 
 def _check_service(db, service: Service):
+    now = datetime.now(timezone.utc)
+    under_maintenance = (
+        db.query(MaintenanceWindow.id)
+        .filter(
+            MaintenanceWindow.starts_at <= now,
+            MaintenanceWindow.ends_at > now,
+            or_(
+                MaintenanceWindow.service_id.is_(None),
+                MaintenanceWindow.service_id == service.id,
+            ),
+        )
+        .first()
+        is not None
+    )
+
     start = time.time()
     is_up = False
     status_code = None
@@ -59,10 +77,11 @@ def _check_service(db, service: Service):
             open_incident.status = "resolved"
             from sqlalchemy.sql import func
             open_incident.resolved_at = func.now()
-            send_alert(db, f":white_check_mark: *{service.name}* has recovered.")
+            if not under_maintenance:
+                send_alert(db, f":white_check_mark: *{service.name}* has recovered.")
     else:
         service.consecutive_failures += 1
-        if service.consecutive_failures >= settings.FAILURE_THRESHOLD:
+        if service.consecutive_failures >= settings.FAILURE_THRESHOLD and not under_maintenance:
             existing_open = (
                 db.query(Incident)
                 .filter(Incident.service_id == service.id, Incident.status == "open")

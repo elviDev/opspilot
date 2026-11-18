@@ -10,6 +10,7 @@ import { LiveIndicator } from "@/features/dashboard/components/live-indicator";
 import {
   LiveAlertRoutes,
   LiveIncidents,
+  LiveMaintenance,
   LiveServices,
 } from "@/features/dashboard/components/live-sections";
 import { IncidentListSkeleton, ServiceGridSkeleton } from "@/features/dashboard/components/skeletons";
@@ -53,16 +54,28 @@ export default function DashboardPage() {
         </Suspense>
       </section>
 
-      <section aria-labelledby="alert-routes-heading" className="mb-8">
-        <h2 id="alert-routes-heading" className="sr-only">
-          Alert destinations
-        </h2>
-        <Suspense fallback={null}>
-          <HydratedDashboard>
-            <LiveAlertRoutes />
-          </HydratedDashboard>
-        </Suspense>
-      </section>
+      <div className="mb-8 grid grid-cols-1 gap-6 sm:mb-10 lg:grid-cols-2">
+        <section aria-labelledby="maintenance-heading">
+          <h2 id="maintenance-heading" className="sr-only">
+            Maintenance windows
+          </h2>
+          <Suspense fallback={null}>
+            <HydratedDashboard>
+              <LiveMaintenance />
+            </HydratedDashboard>
+          </Suspense>
+        </section>
+        <section aria-labelledby="alert-routes-heading">
+          <h2 id="alert-routes-heading" className="sr-only">
+            Alert destinations
+          </h2>
+          <Suspense fallback={null}>
+            <HydratedDashboard>
+              <LiveAlertRoutes />
+            </HydratedDashboard>
+          </Suspense>
+        </section>
+      </div>
 
       <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
         <section aria-labelledby="incidents-heading">
