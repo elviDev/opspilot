@@ -31,6 +31,9 @@ export function useDeleteService({ onDeleted }: UseDeleteServiceOptions = {}) {
           ...snapshot,
           services: snapshot.services.filter((service) => service.id !== id),
           incidents: snapshot.incidents.filter((incident) => incident.service_id !== id),
+          maintenance_windows: snapshot.maintenance_windows.filter(
+            (window) => window.service_id !== id,
+          ),
         },
       );
       queryClient.removeQueries({ queryKey: checkKeys.byService(id) });

@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal, Optional
 from urllib.parse import urlsplit
 
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 
 class ServiceCreate(BaseModel):
@@ -43,6 +43,47 @@ class IncidentOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class MaintenanceWindowCreate(BaseModel):
+    service_id: Optional[int] = None
+    title: str
+    starts_at: datetime
+    ends_at: datetime
+
+    @field_validator("title")
+    @classmethod
+    def validate_title(cls, value: str) -> str:
+        title = value.strip()
+        if not title or len(title) > 120:
+            raise ValueError("Title must be between 1 and 120 characters")
+        return title
+
+    @field_validator("starts_at", "ends_at")
+    @classmethod
+    def require_timezone(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("Maintenance times must include a timezone")
+        return value
+
+    @model_validator(mode="after")
+    def validate_range(self):
+        if self.ends_at <= self.starts_at:
+            raise ValueError("End time must be after start time")
+        if self.ends_at <= datetime.now(timezone.utc):
+            raise ValueError("End time must be in the future")
+        return self
+
+
+class MaintenanceWindowOut(BaseModel):
+    id: int
+    service_id: Optional[int]
+    service_name: Optional[str] = None
+    title: str
+    starts_at: datetime
+    ends_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ChatRequest(BaseModel):
